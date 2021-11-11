@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">  <!-- 获取的是 config/app.php 中的 locale选项,值为zh-CN -->
+<!--lang-声明当前页面语言类型 -->
+<html lang="{{ app()->getLocale() }}">  <!-- 获取config/app.php中的locale选项,值为zh-CN，(所以要到resources/lang文件夹,定义zh-CN.json文件，定义对应中文以便其他页面使用) -->
 
 <head>
   <meta charset="utf-8">
