@@ -13,7 +13,7 @@
  <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-  <div id="app" class="{{ route_class() }}-page"> <!-- route_class()是我们自定义的辅助方法(app\helpers.php) -->
+  <div id="app" class="{{ route_class() }}-page"> <!-- route_class()是我们自定义的辅助方法(对应app\helpers.php文件的route_class()方法) -->
 
     @include('layouts._header')
 
