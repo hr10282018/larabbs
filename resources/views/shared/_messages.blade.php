@@ -1,4 +1,5 @@
 
+<!-- 返回信息提示 -->
 @foreach (['danger', 'warning', 'success', 'info'] as $msg)
   @if(session()->has($msg))
     <div class="flash-message">     <!-- 提示，这里可以弄个模态框 -->
