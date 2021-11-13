@@ -9,6 +9,7 @@ class PagesController extends Controller
     //
     public function root()
     {
-        return view('pages.root');
+      //dd(\Auth::user()->hasVerifiedEmail());
+      return view('pages.root');
     }
 }

@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract; //此接口，定义了邮件相关的四个抽象方法
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;  //加载此trait，可使用四个方法（如下所示）
+//hasVerifiedEmail() 检测用户 Email 是否已认证；
+//markEmailAsVerified() 将用户标示为已认证；
+//sendEmailVerificationNotification() 发送Email认证的消息通知，触发邮件的发送；
+//getEmailForVerification() 获取发送邮件地址，提供这个接口允许你自定义邮箱字段。
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmailContract   //继承此接口，定义了邮件相关的四个方法
 {
-    use Notifiable;
 
+    use Notifiable, MustVerifyEmailTrait;
     /**
      * The attributes that are mass assignable.
      *
