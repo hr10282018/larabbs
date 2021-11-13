@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends FormRequest
 {
@@ -33,7 +34,7 @@ class UserRequest extends FormRequest
     public function messages()  //自定义具体的消息提醒内容
     {
         return [
-            'name.unique' => '用户名已被占用，请重新填写', 
+            'name.unique' => '用户名已被占用，请重新填写',
             'name.regex' => '用户名只支持英文、数字、横杠和下划线。',
             'name.between' => '用户名必须介于 3 - 25 个字符之间。',
             'name.required' => '用户名不能为空。',
