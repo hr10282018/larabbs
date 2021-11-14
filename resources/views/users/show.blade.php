@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', $user->name . ' 的个人中心')
@@ -9,13 +8,12 @@
 
   <div class="col-lg-3 col-md-3 hidden-sm hidden-xs user-info">
     <div class="card ">
-      <img class="card-img-top" src="/images/路飞.png" alt="{{ $user->name }}">
+      <img class="card-img-top" src="{{ $user->avatar }}" alt="{{ $user->name }}">
       <div class="card-body">
             <h5><strong>个人简介</strong></h5>
             <p>{{ $user->introduction }}</p>
             <hr>
             <h5><strong>注册于</strong></h5>
-            {{ dd($user->created_at) }}
             <p>{{ $user->created_at->diffForHumans() }}</p>
       </div>
     </div>

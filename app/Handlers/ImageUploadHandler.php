@@ -35,6 +35,7 @@ class ImageUploadHandler{
     $file->move($upload_path, $filename);
 
     return [
+      //config('app.url')-表示读取config下的app.php文件中的url=>http://larabbs.test
       'path' => config('app.url') . "/$folder_name/$filename"
     ];
 
