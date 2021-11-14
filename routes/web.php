@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::get('/403', function () {
+//   abort(403, '抱歉，你没有权限访问！');
+// });
+
 
 Route::get('/', 'PagesController@root')->name('root');
 
