@@ -27,7 +27,7 @@ class UsersController extends Controller
       $data = $request->all();
 
       if ($request->avatar) {   //判断是否有图片上传
-        $result = $uploader->save($request->avatar, 'avatars', $user->id);  //调用保存文件的方法
+        $result = $uploader->save($request->avatar, 'avatars', $user->id,416);  //调用保存文件的方法
         if ($result) {    //如果保存成功
             $data['avatar'] = $result['path'];
         }
