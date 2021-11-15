@@ -50,3 +50,4 @@ Route::patch('/users/{user}', 'UsersController@update')->name('users.update'); å
 **/
 
 
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
