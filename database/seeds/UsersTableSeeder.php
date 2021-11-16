@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
       $user=User::find(1);
       $user->name = 'Sakura';
       $user->email = '1902422119@qq.com';
-      $user->avatar = 'https://cdn.learnku.com/images/路飞.png';
+      $user->avatar = 'http://larabbs.test/images/sakura.png';
       $user->save();
 
     }
