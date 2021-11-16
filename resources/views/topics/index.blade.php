@@ -1,13 +1,20 @@
 @extends('layouts.app')
 
-@section('title', '话题列表')
+@section('title',  isset($category) ? $category->name : '话题列表') <!-- 三元运算符 -->
 
 @section('content')
 
 <div class="row mb-5">
   <div class="col-lg-9 col-md-9 topic-list">
-    <div class="card ">
 
+  <!-- 显示分类信息(分类名和描述)  -->
+    @if (isset($category))
+      <div class="alert alert-info" role="alert">
+        {{ $category->name }} ：{{ $category->description }}
+      </div>
+    @endif
+
+    <div class="card ">
       <div class="card-header bg-transparent">
         <ul class="nav nav-pills">
           <li class="nav-item"><a class="nav-link active" href="#">最后回复</a></li>
@@ -17,7 +24,7 @@
 
       <div class="card-body">
         <!-- 话题列表 -->
-        @include('topics._topic_list', ['topics' => $topics])
+        @include('topics._topic_list', ['topics' => $topics])   <!-- 为该视图绑定数据topics以便使用 -->
 
         <!-- 分页 -->
         <div class="mt-5">

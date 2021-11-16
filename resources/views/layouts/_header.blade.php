@@ -11,8 +11,26 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Left Side Of Navbar -->
+      <!-- 话题分类 -->
       <ul class="navbar-nav mr-auto">
+        <!-- 不使用扩展包，active -->
+      <li class="nav-item @if (request()->url() == route('topics.index')) active
+@endif"><a class="nav-link" href="{{ route('topics.index') }}">话题</a></li>
+<li class="nav-item @if (request()->url() == route('categories.show', 1 )) active
+@endif"><a class="nav-link" href="{{ route('categories.show', 1) }}">分享</a></li>
+<li class="nav-item @if (request()->url() == route('categories.show', 2 )) active
+@endif"><a class="nav-link" href="{{ route('categories.show', 2) }}">教程</a></li>
+<li class="nav-item @if (request()->url() == route('categories.show', 3 )) active
+@endif"><a class="nav-link" href="{{ route('categories.show', 3) }}">问答</a></li>
+<li class="nav-item @if (request()->url() == route('categories.show', 4 )) active
+@endif"><a class="nav-link" href="{{ route('categories.show', 4) }}">公告</a></li>
 
+        <!-- 使用扩展包 -->
+        <!-- <li class="nav-item {{ active_class(if_route('topics.index')) }}"><a class="nav-link" href="{{ route('topics.index') }}">话题</a></li>
+        <li class="nav-item {{ category_nav_active(1) }}"><a class="nav-link" href="{{ route('categories.show', 1) }}">分享</a></li>
+        <li class="nav-item {{ category_nav_active(2) }}"><a class="nav-link" href="{{ route('categories.show', 2) }}">教程</a></li>
+        <li class="nav-item {{ category_nav_active(3) }}"><a class="nav-link" href="{{ route('categories.show', 3) }}">问答</a></li>
+        <li class="nav-item {{ category_nav_active(4) }}"><a class="nav-link" href="{{ route('categories.show', 4) }}">公告</a></li> -->
       </ul>
 
       <!-- Right Side Of Navbar -->
