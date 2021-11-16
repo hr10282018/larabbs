@@ -14,10 +14,15 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
-	public function index()
+	public function index(Request $request, Topic $topic)
 	{
-		$topics = Topic::with('user','category')->paginate(30); //预加载所用的关联属性
+    //可以$topic->withOrder 或 Topic::withOrder
+  // $request->order 是获取http://larabbs.test/topics?order=recent中的 order 参数。
+		$topics = $topic->withOrder($request->order) // withOrder-使用Topic模型定义的方法
+                    ->with('user','category')
+                    ->paginate(20); //预加载所用的关联属性
 		return view('topics.index', compact('topics'));
+
 	}
 
     public function show(Topic $topic)
@@ -57,4 +62,6 @@ class TopicsController extends Controller
 
 		return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
 	}
+
+
 }
