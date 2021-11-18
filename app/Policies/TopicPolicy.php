@@ -8,14 +8,17 @@ use App\Models\Topic;
 class TopicPolicy extends Policy
 {
 
-    public function destroy(User $user, Topic $topic)
-    {
-        return true;
-    }
 
-    // 只有当话题关联作者的ID等于当前登录用户ID时允许：
+
+    // 只有当话题关联作者的ID等于当前登录用户ID时允许修改帖子
     public function update(User $user, Topic $topic)
     {
-        return $topic->user_id == $user->id;
+      return $user->isAuthorOf($topic);
+    }
+
+    // 用户只能删除自己的帖子
+    public function destroy(User $user, Topic $topic)
+    {
+      return $user->isAuthorOf($topic);
     }
 }

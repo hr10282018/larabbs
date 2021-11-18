@@ -46,4 +46,10 @@ class User extends Authenticatable implements MustVerifyEmailContract   //继承
     public function topics(){
       return $this->hasMany(Topic::class);// 可使用$user->topics来获取到用户发布的所有话题数据。
     }
+
+    //用户策略-当前用户id是否等于关联模型的用户id（只能编辑或删除自己的帖子）
+    public function isAuthorOf($model)
+    {
+        return $this->id == $model->user_id;
+    }
 }
