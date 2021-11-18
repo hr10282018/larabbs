@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Topic;
+use App\Handlers\SlugTranslateHandler;
 
 // creating, created, updating, updated, saving,
 // saved,  deleting, deleted, restoring, restored
@@ -32,5 +33,11 @@ class TopicObserver
 
       // excerpt是话题的摘录字段。摘录由文章内容自动生成，需要在话题数据存入数据库之前生成。
       $topic->excerpt = make_excerpt($topic->body);// make_excerpt-自定义的辅助方法（app\helpers.php文件）：
+
+       // 如 slug 字段无内容，即使用翻译器对 title 进行翻译
+      if ( ! $topic->slug) {
+        // app-允许我们使用Laravel服务容器，用来生成SlugTranslateHandler实例。
+        $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);  // app/Handlers/SlugTranslateHandler.php
+      }
     }
 }

@@ -47,4 +47,11 @@ class Topic extends Model
         // 按照创建时间排序
         return $query->orderBy('created_at', 'desc');
     }
+
+    // 设置slug路由，供控制器（TopicsController）方法（成功创建话题）中的路由跳转使用
+    public function link($params = [])  // 参数 $params允许附加URL参数的设定。
+    {
+      //用户id+slug 路由，如 http://larabbs.test/topics/115/slug-translation-test
+      return route('topics.show', array_merge([$this->id, $this->slug], $params));
+    }
 }

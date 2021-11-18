@@ -30,9 +30,13 @@ class TopicsController extends Controller
 	}
 
     // 帖子展示页面
-    public function show(Topic $topic)
+    public function show(Request $request,Topic $topic)
     {
-        return view('topics.show', compact('topic'));
+      // URL 矫正-如果话题的slug不为空并且当前url的slug不等于话题的slug
+      if ( ! empty($topic->slug) && $topic->slug != $request->slug) {
+        return redirect($topic->link(), 301); // 301 永久重定向到正确的 URL 上
+    }
+      return view('topics.show', compact('topic'));
     }
 
   // 创建帖子分类
@@ -54,7 +58,8 @@ class TopicsController extends Controller
     $topic->user_id = Auth::id();   // 获取当前登录的ID
     $topic->save();     // 保存到数据库中
 		//$topic = Topic::create($request->all());
-		return redirect()->route('topics.show', $topic->id)->with('success', '帖子创建成功！');
+		//return redirect()->route('topics.show', $topic->id)->with('success', '成功创建话题！');
+    return redirect()->to($topic->link())->with('success', '成功创建话题！'); // link()-slug(Model/Topic.php)
 	}
 
   // 编辑帖子
@@ -71,15 +76,17 @@ class TopicsController extends Controller
 		$this->authorize('update', $topic);
 		$topic->update($request->all());
 
-		return redirect()->route('topics.show', $topic->id)->with('success', '帖子更新成功！');
-	}
+		//return redirect()->route('topics.show', $topic->id)->with('success', '成功更新话题！');
+    return redirect()->to($topic->link())->with('success', '成功更新话题！'); // link()-slug(Model/Topic.php)
+
+  }
 
 	public function destroy(Topic $topic)
 	{
 		$this->authorize('destroy', $topic);
 		$topic->delete();
 
-		return redirect()->route('topics.index')->with('success', '成功删除！');
+		return redirect()->route('topics.index')->with('success', '成功删除话题！');
 	}
 
   // 编辑器-图片上传处理

@@ -4,9 +4,14 @@
 <ul class="list-group mt-4 border-0">
   @foreach ($topics as $topic)
     <li class="list-group-item pl-2 pr-2 border-right-0 border-left-0 @if($loop->first) border-top-0 @endif">
-      <a href="{{ route('topics.show', $topic->id) }}">
+      <!-- <a href="{{ route('topics.show', $topic->id) }}">
+        {{ $topic->title }}
+      </a> -->
+      <!-- link()-Topic模型中的定义的方法，表示slug参数路由 -->
+      <a href="{{ $topic->link() }}">
         {{ $topic->title }}
       </a>
+
       <span class="meta float-right text-secondary">
         {{ $topic->reply_count }} 回复
         <span> ⋅ </span>

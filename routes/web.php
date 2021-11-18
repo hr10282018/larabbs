@@ -50,7 +50,11 @@ Route::patch('/users/{user}', 'UsersController@update')->name('users.update'); �
 **/
 
 
-Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+//Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
+// 将show单独拿出来（话题展示），路由加上slug参数，?表示该参数可有可不有，为了兼容该表的slug字段为空
+Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show');
+
 
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);//分类列表显示
 
