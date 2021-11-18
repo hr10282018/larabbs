@@ -29,6 +29,7 @@ class TopicsController extends Controller
 
 	}
 
+    // 帖子展示页面
     public function show(Topic $topic)
     {
         return view('topics.show', compact('topic'));
@@ -102,13 +103,10 @@ class TopicsController extends Controller
 
       /*
         保存图片到本地
-        save-引用自定义的图片处理的方法。参数1是图片文件，参数2是存储目录名，参数3是用户id，参数4为图片最大尺寸
+        save-引用自定义的图片处理的方法。参数1是图片对象，参数2是存储目录名，参数3是用户id，参数4为图片最大尺寸
       */
 
-      
       $result = $uploader->save($file, 'topics', Auth::id(), 1024);
-
-
       // 图片保存成功的话
       if ($result) {
         $data['file_path'] = $result['path'];

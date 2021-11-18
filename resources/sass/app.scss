@@ -112,3 +112,26 @@ body {
 #app > div.container {
   margin-bottom: 150px;
 }
+
+
+
+/* Topic Show Page-帖子展示页面 */
+
+@import "topic_body";   /* 引入帖子展示样式*/
+
+/*  发帖时的上传图片 */
+.simditor-body img {
+  max-width:100%;
+}
+.topics-show-page {
+
+    .card {
+        padding: 15px;
+
+        h1 {
+            margin: 0.4em auto 0.6em;
+            font-size: 28px;
+            line-height: 38px;
+        }
+    }
+}
