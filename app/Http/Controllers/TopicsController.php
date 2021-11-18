@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use App\Handlers\ImageUploadHandler;    // 图片处理
+
 
 class TopicsController extends Controller
 {
@@ -76,5 +78,47 @@ class TopicsController extends Controller
 		return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
 	}
 
+  // 编辑器-图片上传处理
+  public function uploadImage(Request $request, ImageUploadHandler $uploader){
+    /*
+        服务器端通过返回以下 JSON 来反馈上传状态：
+        {
+          "success": true/false,
+          "msg": "error message", # optional
+          "file_path": "[real file path]"
+        }
+
+      */
+
+    // 初始化返回数据，默认是失败的
+    $data = [
+      'success'   => false,
+      'msg'       => '上传失败!',
+      'file_path' => ''
+    ];
+
+    // 判断是否有上传文件，并赋值给 $file
+    if ($file = $request->upload_file) {
+
+      /*
+        保存图片到本地
+        save-引用自定义的图片处理的方法。参数1是图片文件，参数2是存储目录名，参数3是用户id，参数4为图片最大尺寸
+      */
+
+      
+      $result = $uploader->save($file, 'topics', Auth::id(), 1024);
+
+
+      // 图片保存成功的话
+      if ($result) {
+        $data['file_path'] = $result['path'];
+        $data['msg']       = "上传成功!";
+        $data['success']   = true;
+      }
+    }
+
+    return $data;
+
+  }
 
 }

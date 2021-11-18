@@ -12,7 +12,7 @@
  <!-- Styles -->
  <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
- @yield('styles')   <!-- 文字编辑器样式 -->
+ @yield('styles')   <!-- 设置yield-文字编辑器样式，只在话题编辑的页面引入 -->
 
 </head>
 <body>
