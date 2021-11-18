@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
+ const mix = require('laravel-mix');
+
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css').version(); //version()-只要文件修改，哈希值就会变，提醒客户端需要重新加载文件,解决缓存问题
+    .sass('resources/sass/app.scss', 'public/css').version() //version()-只要文件修改，哈希值就会变，提醒客户端需要重新加载文件,解决缓存问题
+    .copyDirectory('resources/editor/js', 'public/js')    //编辑器 js
+   .copyDirectory('resources/editor/css', 'public/css');  //编辑器css
