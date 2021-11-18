@@ -36,9 +36,14 @@
 
               <div class="form-group">
                 <select class="form-control" name="category_id" required>
-                  <option value="" hidden disabled selected>请选择分类</option>
+                  <!-- <option value="" hidden disabled selected>请选择分类</option> -->
+                  <!-- 如果有帖子id，则表示是编辑，不需要显示选择分类，所以去掉selected属性 -->
+                  <option value="" hidden disabled {{ $topic->id ? '' : 'selected' }}>请选择分类</option>
                   @foreach ($categories as $value)
-                  <option value="{{ $value->id }}">{{ $value->name }}</option>
+                    <!-- 当前帖子的分类id是否等于帖子分类表id，相等则表示是编辑帖子，需要默认选中那个分类 -->
+                    <option value="{{ $value->id }}" {{ $topic->category_id == $value->id ? 'selected' : '' }}>
+                      {{ $value->name }}
+                    </option>
                   @endforeach
                 </select>
               </div>
