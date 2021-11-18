@@ -60,7 +60,7 @@
 
 
 <!-- 继承app视图的文本编辑器css和js -->
-@section('styles')
+ @section('styles')
   <link rel="stylesheet" type="text/css" href="{{ asset('css/simditor.css') }}">
 @stop
 
@@ -90,3 +90,5 @@
     });
   </script>
 @stop
+
+

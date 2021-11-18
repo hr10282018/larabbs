@@ -27,6 +27,9 @@ class TopicObserver
     }
 
     public function saving(Topic $topic){   //接收Topic模型参数
+
+      $topic->body = clean($topic->body, 'user_topic_body');  //clean-xxs攻击过滤html和js（config/purifier.php）
+
       // excerpt是话题的摘录字段。摘录由文章内容自动生成，需要在话题数据存入数据库之前生成。
       $topic->excerpt = make_excerpt($topic->body);// make_excerpt-自定义的辅助方法（app\helpers.php文件）：
     }
