@@ -6,12 +6,14 @@ use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class TopicsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show']]); // 限制未登录用户（发帖）
     }
 
 	public function index(Request $request, Topic $topic)
@@ -30,15 +32,26 @@ class TopicsController extends Controller
         return view('topics.show', compact('topic'));
     }
 
+  // 创建话题分类
 	public function create(Topic $topic)
 	{
-		return view('topics.create_and_edit', compact('topic'));
+    $categories = Category::all();
+		return view('topics.create_and_edit', compact('topic','categories'));
 	}
 
-	public function store(TopicRequest $request)
+  //编辑话题保存
+	public function store(TopicRequest $request,Topic $topic)
 	{
-		$topic = Topic::create($request->all());
-		return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
+    /*
+      获取用户请求的所有数据组成的数组，如 ['title' => '标题',...]
+      fill 方法会将传参的键值数组填充到模型的属性中，如以上数组，$topic->title 的值为 标题
+    */
+    $topic->fill($request->all());
+
+    $topic->user_id = Auth::id();   // 获取当前登录的ID
+    $topic->save();     // 保存到数据库中
+		//$topic = Topic::create($request->all());
+		return redirect()->route('topics.show', $topic->id)->with('success', '帖子创建成功！');
 	}
 
 	public function edit(Topic $topic)
