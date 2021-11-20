@@ -60,5 +60,10 @@ Route::resource('categories', 'CategoriesController', ['only' => ['show']]);//�
 
 Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');// 文本编辑-上传图片
 
+// 回复数据相关路由
+//Route::resource('replies', 'RepliesController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);  自动创建的
+Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);  // 只需要这两个
 
-Route::resource('replies', 'RepliesController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+
+
+
