@@ -27,14 +27,28 @@
     <hr>
 
     {{-- 用户发布的内容 --}}
-    <div class="card">
+    <div class="card ">
       <div class="card-body">
         <ul class="nav nav-tabs">
-          <li class="nav-item"><a class="nav-link active bg-transparent" href="#">Ta 的话题</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Ta 的回复</a></li>
+          <li class="nav-item">
+            <a class="nav-link bg-transparent {{ active_class(if_query('tab', null)) }}" href="{{ route('users.show', $user->id) }}">
+              Ta 的话题
+            </a>
+          </li>
+
+          <!-- 若点击该链接，表示选中状态，链接参数tab的值为replies -->
+          <li class="nav-item">
+            <a class="nav-link bg-transparent {{ active_class(if_query('tab', 'replies')) }}" href="{{ route('users.show', [$user->id, 'tab' => 'replies']) }}">
+              Ta 的回复
+            </a>
+          </li>
         </ul>
-        <!-- 为该视图绑定数据，$user->topics()获取该用户所有话题，接着按创建时间排序(Topic模型定义的方法)，最后每页显示5条话题 -->
-        @include('users._topics', ['topics' => $user->topics()->recent()->paginate(5)])
+        @if (if_query('tab', 'replies'))
+          <!-- recent()-是Model/Model.php(Model/Topic.php)中定义的方法，按照创建时间排序 -->
+          @include('users._replies', ['replies' => $user->replies()->with('topic')->recent()->paginate(5)])
+        @else
+          @include('users._topics', ['topics' => $user->topics()->recent()->paginate(5)])
+        @endif
       </div>
     </div>
 

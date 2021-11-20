@@ -13,7 +13,7 @@ class Model extends EloquentModel
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('order', 'desc');
+        return $query->orderBy('order', 'desc');    // order 是按照帖子回复的最新时间排序
     }
 
 }
