@@ -56,7 +56,7 @@ class TopicsController extends Controller
     $topic->fill($request->all());
 
     $topic->user_id = Auth::id();   // 获取当前登录的ID
-    $topic->save();     // 保存到数据库中
+    $topic->save();     // 保存到数据库中,(会触发模型观察器的saving方法)
 		//$topic = Topic::create($request->all());
 		//return redirect()->route('topics.show', $topic->id)->with('success', '成功创建话题！');
     return redirect()->to($topic->link())->with('success', '成功创建话题！'); // link()-slug(Model/Topic.php)

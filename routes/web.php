@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', 'PagesController@root')->name('root');
-
+Route::get('/dd', 'PagesController@root2')->name('root'); // 查看php版本
 
 /* Auth::routes();  为了直观，用下面四个功能的路由(用户身份验证、注册、密码重置、Eamil认证)替换这一句
   此处是Laravel的用户认证路由,在vendor/laravel/ui/src/AuthRouteMethods.php 中即可找到定义的地方，以上等同于：
@@ -59,3 +59,4 @@ Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);//分类列表显示
 
 Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');// 文本编辑-上传图片
+

@@ -3,7 +3,8 @@
 namespace App\Observers;
 
 use App\Models\Topic;
-use App\Handlers\SlugTranslateHandler;
+//use App\Handlers\SlugTranslateHandler;
+use App\Jobs\TranslateSlug;
 
 // creating, created, updating, updated, saving,
 // saved,  deleting, deleted, restoring, restored
@@ -17,27 +18,38 @@ use App\Handlers\SlugTranslateHandler;
 
 class TopicObserver
 {
-    public function creating(Topic $topic)
-    {
-        //
-    }
-
-    public function updating(Topic $topic)
-    {
-        //
-    }
 
     public function saving(Topic $topic){   //接收Topic模型参数
 
-      $topic->body = clean($topic->body, 'user_topic_body');  //clean-xxs攻击过滤html和js（config/purifier.php）
+      $topic->body = clean($topic->body, 'user_topic_body');  //clean()-xxs攻击过滤html和js（config/purifier.php）
 
       // excerpt是话题的摘录字段。摘录由文章内容自动生成，需要在话题数据存入数据库之前生成。
       $topic->excerpt = make_excerpt($topic->body);// make_excerpt-自定义的辅助方法（app\helpers.php文件）：
 
        // 如 slug 字段无内容，即使用翻译器对 title 进行翻译
-      if ( ! $topic->slug) {
+      /* if ( ! $topic->slug) {
         // app-允许我们使用Laravel服务容器，用来生成SlugTranslateHandler实例。
-        $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);  // app/Handlers/SlugTranslateHandler.php
-      }
+        //$topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);  // app/Handlers/SlugTranslateHandler.php
+
+
+        //将上面slug翻译调用改为队列执行的方式
+        //dispatch()-推送任务队列
+
+        dispatch(new TranslateSlug($topic));
+      } */
+    }
+
+    /*
+      不能在saving推送任务，因为传参$topic此时还未在数据库创建，id为null
+      所以需要在saved中推送任务
+    */
+    public function saved(Topic $topic)
+    {
+        // 如 slug 字段无内容，即使用翻译器对 title 进行翻译
+        if ( ! $topic->slug) {
+
+            // 推送任务到队列
+            dispatch(new TranslateSlug($topic));
+        }
     }
 }

@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use Overtrue\Pinyin\Pinyin;
 use Illuminate\Support\Str;
 
-class SlugTranslateHandler
+class SlugTranslateHandler    // slug翻译
 {
     public function translate($text)
     {
