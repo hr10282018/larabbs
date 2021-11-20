@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract; //此接口，定义了邮件相关的四个抽象方法
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +15,12 @@ use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;  //加载此trait�
 class User extends Authenticatable implements MustVerifyEmailContract   //继承此接口，定义了邮件相关的四个方法
 {
 
-    use Notifiable, MustVerifyEmailTrait;
+    //use Notifiable, MustVerifyEmailTrait;
+    use MustVerifyEmailTrait;
+
+    use Notifiable {
+        notify as protected laravelNotify;      // 先修改方法名，方便重写，不然会冲突
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -58,5 +64,20 @@ class User extends Authenticatable implements MustVerifyEmailContract   //继承
         return $this->id == $model->user_id;
     }
 
+
+    public function notify($instance)   // 重写notify。此方法接收一个通知实例做参数，通知类的定义在App\Notifications\TopicReplied.php
+    {
+        // 如果要通知的人是当前用户，就不必通知了！
+        if ($this->id == Auth::id()) {
+            return;
+        }
+
+        // 现在只需要数据库类型通知才需提醒（直接发送Email或者其他的都Pass）
+        if (method_exists($instance, 'toDatabase')) {   // toDatabase()-app/Notifications/TopicReplied.php中定义的方法，定义存储到通知表的数据
+            $this->increment('notification_count');     // 每当你调用$user->notify()时， users表里的notification_count字段(未读消息数量)将自动+1。
+        }
+
+        $this->laravelNotify($instance);
+    }
 
 }
