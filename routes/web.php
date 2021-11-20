@@ -60,3 +60,5 @@ Route::resource('categories', 'CategoriesController', ['only' => ['show']]);//�
 
 Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');// 文本编辑-上传图片
 
+
+Route::resource('replies', 'RepliesController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);

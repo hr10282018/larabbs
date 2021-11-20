@@ -11,7 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-      $this->call(UsersTableSeeder::class); //调用生成用户假数据
-      $this->call(TopicsTableSeeder::class);  //调用生成话题假数据
+      $this->call(UsersTableSeeder::class);   // 调用生成用户假数据
+
+      $this->call(TopicsTableSeeder::class);  // 调用生成话题假数据
+
+      $this->call(RepliesTableSeeder::class); // 调用生成评论假数据
     }
 }

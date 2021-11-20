@@ -12,11 +12,14 @@ class Topic extends Model
     {
         return $this->belongsTo(Category::class); //一个话题属于一个分类
     }
-
     public function user()
     {
         return $this->belongsTo(User::class); //一个话题属于一个作者
     }
+    public function replies(){
+      return $this->hasMany(Reply::class);    // 一个话题有多条回复
+    }
+
 
     // 话题列表排序方法
     public function scopeWithOrder($query,$order){
@@ -54,4 +57,6 @@ class Topic extends Model
       //用户id+slug 路由，如 http://larabbs.test/topics/115/slug-translation-test
       return route('topics.show', array_merge([$this->id, $this->slug], $params));
     }
+
+
 }
