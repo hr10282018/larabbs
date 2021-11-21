@@ -19,8 +19,10 @@ class ReplyObserver
       字段缓存的方式
       创建成功后计算本话题下评论总数，然后再对其 reply_count 字段进行赋值
     */
-    $reply->topic->reply_count = $reply->topic->replies->count();
-    $reply->topic->save();
+    //$reply->topic->reply_count = $reply->topic->replies->count();
+    //$reply->topic->save();
+
+    $reply->topic->updateReplyCount();  // 代替上面两句(此方法在Topic模型文件中定义)
 
     /*
       通知话题作者有新的评论
@@ -37,5 +39,14 @@ class ReplyObserver
     $reply->content = clean($reply->content, 'user_topic_body');  // user_topic_body-过滤规则
   }
 
+  // 在用户删除回复后触发
+  public function deleted(Reply $reply)
+  {
+    // $reply->topic->reply_count = $reply->topic->replies->count();
+    // $reply->topic->save();
+
+    // updateReplyCount()-在Topic模型定义的此方法，为了减少重复性代码，将其抽象化出来
+    $reply->topic->updateReplyCount(); // 用这句代替上面两句
+  }
 
 }

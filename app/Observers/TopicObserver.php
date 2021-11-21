@@ -52,4 +52,11 @@ class TopicObserver
             dispatch(new TranslateSlug($topic));
         }
     }
+
+    // 在话题被删除后触发
+    public function deleted(Topic $topic)
+    {
+      // 删除该话题下的所有回复
+      \DB::table('replies')->where('topic_id', $topic->id)->delete();
+    }
 }

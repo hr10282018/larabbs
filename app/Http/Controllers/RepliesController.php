@@ -34,6 +34,6 @@ class RepliesController extends Controller
 		$this->authorize('destroy', $reply);    // 授权策略
 		$reply->delete();
 
-		return redirect()->route('replies.index')->with('success', '评论删除成功^_^');
+		return redirect()->to($reply->topic->link())->with('success', '评论删除成功^_^');
 	}
 }
