@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;      //序列化和反序列化
 use App\Models\Topic;
 use App\Handlers\SlugTranslateHandler;  // 引入slug接口翻译类，用它的方法进入定义队列任务
 
-class TranslateSlug implements ShouldQueue
+class TranslateSlug implements ShouldQueue    // 实现队列接口
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
