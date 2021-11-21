@@ -13,7 +13,9 @@ class ReplyObserver
   // 当 Elequont 模型数据成功创建时，created 方法将会被调用
   public function created(Reply $reply)
   {
-    // $reply->topic->increment('reply_count', 1);   // +1（回复数量）
+    // 命令行运行迁移时不做这些操作！
+    if ( ! app()->runningInConsole()) {
+      // $reply->topic->increment('reply_count', 1);   // +1（回复数量）
 
     /*
       字段缓存的方式
@@ -30,6 +32,8 @@ class ReplyObserver
       提示：此方法我们能在Use模型中对它进行重写。
     */
     $reply->topic->user->notify(new TopicReplied($reply));  // 传入通知实例做参数。(通知类定义在App\Notifications\TopicReplied.php)
+    }
+
   }
 
   // 在用户回复数据存储之前触发

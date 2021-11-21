@@ -12,6 +12,9 @@ use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;  //加载此trait�
 //sendEmailVerificationNotification() 发送Email认证的消息通知，触发邮件的发送；
 //getEmailForVerification() 获取发送邮件地址，提供这个接口允许你自定义邮箱字段。
 
+use Spatie\Permission\Traits\HasRoles; //  laravel-permission提供的Trait
+
+
 class User extends Authenticatable implements MustVerifyEmailContract   //继承此接口，定义了邮件相关的四个方法
 {
 
@@ -21,29 +24,19 @@ class User extends Authenticatable implements MustVerifyEmailContract   //继承
     use Notifiable {
         notify as protected laravelNotify;      // 先修改方法名，方便重写，不然会冲突
     }
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
+    use HasRoles; // 该trait可以让我们获取扩展包提供的用户所有权限和角色操作方法
+
     protected $fillable = [       //允许修改的字段
         'name', 'email', 'password','avatar','introduction'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

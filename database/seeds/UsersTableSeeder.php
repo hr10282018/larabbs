@@ -22,5 +22,11 @@ class UsersTableSeeder extends Seeder
       $user->avatar = 'http://larabbs.test/images/sakura.png';
       $user->save();
 
+       // 初始化用户角色，将1号用户指派为『站长』
+      $user->assignRole('Founder'); // assignRole()-该方法在HasRoles中定义，我们已在User模型中加载了
+
+      // 将 2 号用户指派为『管理员』
+      $user = User::find(2);
+      $user->assignRole('Maintainer');
     }
 }
