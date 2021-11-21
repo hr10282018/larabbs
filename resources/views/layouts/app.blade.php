@@ -9,7 +9,7 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}"> <!--csrf-token 标签是为了方便前端的JavaScript脚本获取CSRF令牌。 -->
   <title>@yield('title', 'LaraBBS') - Laravel 进阶教程</title>
-  
+
   <meta name="description" content="@yield('description', 'LaraBBS 爱好者社区')" /> <!-- seo页面描述 -->
 
  <!-- Styles -->
@@ -33,6 +33,11 @@
 
     @include('layouts._footer')
   </div>
+
+  <!-- 使用Sudosu，在测试时，可快速切换用户角色(右下角) -->
+  @if (app()->isLocal())
+    @include('sudosu::user-selector')
+  @endif
 
   <!-- Scripts -->
   <script src="{{ mix('js/app.js') }}"></script>
