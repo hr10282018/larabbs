@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract; //此接口，定义了邮件相关的四个抽象方法
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notifiable;    // 消息通知(notify、notifications)
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;  //加载此trait，可使用四个方法（如下所示）
 //hasVerifiedEmail() 检测用户 Email 是否已认证；
 //markEmailAsVerified() 将用户标示为已认证；
@@ -65,7 +65,8 @@ class User extends Authenticatable implements MustVerifyEmailContract   //继承
     }
 
 
-    public function notify($instance)   // 重写notify。此方法接收一个通知实例做参数，通知类的定义在App\Notifications\TopicReplied.php
+    // 重写notify。该方法在trait-Notifiable的trait-RoutesNotifications中。
+    public function notify($instance)   // 此方法接收一个通知实例做参数，通知类的定义在App\Notifications\TopicReplied.php
     {
         // 如果要通知的人是当前用户，就不必通知了！
         if ($this->id == Auth::id()) {
@@ -78,6 +79,19 @@ class User extends Authenticatable implements MustVerifyEmailContract   //继承
         }
 
         $this->laravelNotify($instance);
+    }
+
+    // 当用户访问通知列表，消除所有未读消息
+    public function markAsRead()
+    {
+        $this->notification_count = 0;  // 用户表未读消息数量设为0
+        $this->save();
+
+        /*
+          unreadNotifications()-此方法可获取用户read_at字段为null(未读消息)的所有数据。(此方法在trait-Notifiable中的trait-HasDatabaseNotifications文件)
+          markAsRead()-作用将未读消息的全部清空，也就是更新通知表中的read_at字段(插入当前时间)，表示已读 。(此方法在trait-Notifiable中的trait-HasDatabaseNotifications中的DatabaseNotification类中定义)
+        */
+        $this->unreadNotifications->markAsRead();
     }
 
 }

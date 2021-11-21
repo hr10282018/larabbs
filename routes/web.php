@@ -64,6 +64,7 @@ Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload
 //Route::resource('replies', 'RepliesController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);  自动创建的
 Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);  // 只需要这两个
 
-
+// 消息通知路由
+Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
 
 
