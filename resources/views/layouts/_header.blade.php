@@ -58,6 +58,15 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <!-- 判断是否有管理内容的权限 -->
+              @can('manage_contents')
+                <a class="dropdown-item" href="{{ url(config('administrator.uri')) }}"> <!-- 此处访问config目录下的administrator文件的uri值 -->
+                  <i class="fas fa-tachometer-alt mr-2"></i>
+                  管理后台
+                </a>
+                <div class="dropdown-divider"></div>
+              @endcan
+
               <a class="dropdown-item" href="{{ route('users.show', Auth::id()) }}">
                 <i class="far fa-user mr-2"></i>
                 个人中心
