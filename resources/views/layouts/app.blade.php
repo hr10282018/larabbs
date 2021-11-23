@@ -8,9 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}"> <!--csrf-token 标签是为了方便前端的JavaScript脚本获取CSRF令牌。 -->
-  <title>@yield('title', 'LaraBBS') - Laravel 进阶教程</title>
+  <title>@yield('title', 'LaraBBS') - {{ setting('site_name', 'Laravel 进阶教程') }}</title>
 
-  <meta name="description" content="@yield('description', 'LaraBBS 爱好者社区')" /> <!-- seo页面描述 -->
+  <meta name="description" content="@yield('description', setting('seo_description', 'LaraBBS 爱好者社区。'))" /> <!-- seo页面描述 -->
 
  <!-- Styles -->
  <link href="{{ mix('css/app.css') }}" rel="stylesheet">
