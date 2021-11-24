@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Handlers\ImageUploadHandler;    // 图片处理
 use App\Models\User;
+use App\Models\Link;
 
 class TopicsController extends Controller
 {
@@ -18,7 +19,7 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]); // 限制未登录用户（发帖）
     }
 
-	public function index(Request $request, Topic $topic,User $user)
+	public function index(Request $request, Topic $topic,User $user,Link $link)
 	{
     // 可以$topic->withOrder 或 Topic::withOrder
     // $request->order 是获取http://larabbs.test/topics?order=recent中的 order 参数。
@@ -30,7 +31,9 @@ class TopicsController extends Controller
     $active_users = $user->getActiveUsers();
     // dd($active_users);      // 测试数据
 
-    return view('topics.index', compact('topics', 'active_users'));
+    $links = $link->getAllCached(); // 获得推荐资源缓存数据
+
+    return view('topics.index', compact('topics', 'active_users','links'));
 
 	}
 

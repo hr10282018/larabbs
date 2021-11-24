@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
       $this->call(TopicsTableSeeder::class);  // 调用生成话题假数据
 
       $this->call(RepliesTableSeeder::class); // 调用生成评论假数据
+
+      $this->call(LinksTableSeeder::class);   // 调用生成资源推荐假数据
     }
 }
