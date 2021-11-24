@@ -9,7 +9,7 @@ use App\Http\Requests\TopicRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Handlers\ImageUploadHandler;    // 图片处理
-
+use App\Models\User;
 
 class TopicsController extends Controller
 {
@@ -18,14 +18,19 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]); // 限制未登录用户（发帖）
     }
 
-	public function index(Request $request, Topic $topic)
+	public function index(Request $request, Topic $topic,User $user)
 	{
-    //可以$topic->withOrder 或 Topic::withOrder
-  // $request->order 是获取http://larabbs.test/topics?order=recent中的 order 参数。
+    // 可以$topic->withOrder 或 Topic::withOrder
+    // $request->order 是获取http://larabbs.test/topics?order=recent中的 order 参数。
 		$topics = $topic->withOrder($request->order) // withOrder-使用Topic模型定义的方法
                     ->with('user','category')
                     ->paginate(20); //预加载所用的关联属性
-		return view('topics.index', compact('topics'));
+
+    // 获得活跃用户
+    $active_users = $user->getActiveUsers();
+    // dd($active_users);      // 测试数据
+
+    return view('topics.index', compact('topics', 'active_users'));
 
 	}
 
