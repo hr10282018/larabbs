@@ -23,6 +23,8 @@ class User extends Authenticatable implements MustVerifyEmailContract   //继承
 
     use Traits\ActiveUserHelper;  // 自定义的trait-获取活跃用户
 
+    use Traits\LastActivedAtHelper; // 自定义trait-redis哈希表记录用户访问时间
+
     use Notifiable {
         notify as protected laravelNotify;      // 先修改方法名，方便重写，不然会冲突
     }
@@ -89,7 +91,7 @@ class User extends Authenticatable implements MustVerifyEmailContract   //继承
         $this->unreadNotifications->markAsRead();
     }
 
-    // 针对后台添加用户时，密码作哈希处理-命名set+字段名+Attribute
+    // 修改器（对字段修改时触发）-针对后台添加用户时，密码作哈希处理-命名set+字段名+Attribute
     public function setPasswordAttribute($value)
     {
         // 如果值的长度等于 60，即认为是已经做过加密的情况
