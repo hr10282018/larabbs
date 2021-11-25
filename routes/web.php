@@ -2,23 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
 // Route::get('/403', function () {
 //   abort(403, '抱歉，你没有权限访问！');
 // });
 
 
-Route::get('/', 'PagesController@root')->name('root');
+//Route::get('/', 'PagesController@root')->name('root');
+Route::get('/', 'TopicsController@index')->name('root');
 Route::get('/dd', 'PagesController@root2')->name('root'); // 查看php版本
+
 
 /* Auth::routes();  为了直观，用下面四个功能的路由(用户身份验证、注册、密码重置、Eamil认证)替换这一句
   此处是Laravel的用户认证路由,在vendor/laravel/ui/src/AuthRouteMethods.php 中即可找到定义的地方，以上等同于：
@@ -67,5 +60,5 @@ Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]
 // 消息通知路由
 Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
 
-// 
+//
 Route::get('permission-denied', 'PagesController@permissionDenied')->name('permission-denied');
